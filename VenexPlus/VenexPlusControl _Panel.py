@@ -89,10 +89,13 @@ def cpanel():
     
     #validating port and stor port
     while True:
+        port = ""
+        try:
+            port = int(input("Enter Host Port (press Enter to 4444): "))
+        except:
+            None
 
-        port = int(input("Enter Host Port (press Enter to 4444): "))
-
-        if not port:
+        if port == "":
             port = 4444
 
         if is_port_in_use(port):
@@ -111,7 +114,36 @@ def cpanel():
 
     # beacome a sever socket
     serverSocket.listen(5)
+
+
+
+
+    #creat lisning loop
+    anim = "/"
+    conn = None
+    serverSocket.settimeout(0.5)
+
+    while not conn:
+        print("")
+        print("\rLisning client..."+ anim, end="", flush=True)
+        if anim == "/":
+            anim = "|"
+        elif anim == "|":
+            anim = "\\"
+        elif anim == "\\":
+            anim = "/"
+        
+        try:
+            conn, addr = serverSocket.accept()
+            break
+        except:
+            continue
     
+    print("")
+    print("\r-")
+    print(f"Connected to {addr[0]}")
+
+    #end lisning loop
 
 
 
